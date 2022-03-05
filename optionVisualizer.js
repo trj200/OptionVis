@@ -26,13 +26,66 @@ function getOptionValue(CallOrPut, strike, time, spotPrice, volatility, riskFree
     else{
         value = (strike * Math.exp(-riskFreeRate * time) * fn_CD(-d2,0,1)) - (spotPrice * 1 * fn_CD(-d1,0,1))
     }
-    document.write(CallOrPut);
+    //document.write(CallOrPut);
 
     return value;
 }
 
+function getGridNumbers(CallOrPut, strike, time, spotPrice, volatility, riskFreeRate){
+    var xResolution = 10;
+    var yResolution = 10;
+    var yIncrement = 40 / yResolution;
+    var xIncrement = time / xResolution ;
+    var yStart = spotPrice + xResolution * 2;
+    var xStart = time;
+    results = new Array(yResolution);
+    for(var count = 0; count < results.length; count++){
+        results[count] = new Array(xResolution);
+    }
+    for(var yCount = 0; yCount < yResolution; yCount ++){
+        //console.log(xCount);
+        xStart = time;
+        for(var xCount = 0; xCount < xResolution; xCount++){
+        //console.log(yCount);
+        results[xCount][yCount] = getOptionValue(CallOrPut, strike, xStart, yStart, volatility, riskFreeRate );
+        console.log(xStart  + "," + yStart  + ":" + getOptionValue(CallOrPut, strike, xStart, yStart, volatility, riskFreeRate ) );
+        xStart -= xIncrement;
+    }
+        yStart -= yIncrement;
+}
+    console.log(results);
+    return results;
+}
+
+$( init );
+
+function init() {
+    var rfr = .01;
+    var vol = .12;
+    document.write(new Date())
+    document.write("<br />");
+        document.write(getOptionValue("call", 100, 1, 110, vol, rfr));
+        document.write("<br />");
+        document.write(getOptionValue("put", 100, 1, 110, vol, rfr));
+        document.write("<br />");
+        document.write(getOptionValue("put", 100, 1, 84, vol, rfr));
+
+
 var rfr = .01;
 var vol = .12;
-document.write(getOptionValue("call", 100, 1, 110, vol, rfr));
-document.write("<br />");
-document.write(getOptionValue("put", 100, 1, 110, vol, rfr));
+//document.write('a');
+var table = getGridNumbers("call", 100, .1, 100, vol, rfr);
+//document.write('a2');
+document.write('<table>')
+for(var xCount = 0; xCount < 10; xCount ++){
+    document.write('<tr>')
+    for(var yCount = 0; yCount < 10; yCount++){
+        document.write('<td>' + table[xCount][yCount].toFixed(3) + '</td>');
+    }
+    document.write('</tr>')
+}
+document.write('</table>');
+}
+
+
+
