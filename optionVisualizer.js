@@ -76,9 +76,6 @@ function init() {
     //document.write(getOptionValue("call", 100, .1, 84, vol, rfr) + " / ");
     //document.write(getOptionValue("put", 100, .1, 84, vol, rfr));
 
-    //new comment
-
-    
     //document.write('a');
     var table = getGridNumbers("call", 100, 1, 100, vol, rfr);
     //document.write('a2');
