@@ -32,11 +32,11 @@ function getOptionValue(CallOrPut, strike, time, spotPrice, volatility, riskFree
 }
 
 function getGridNumbers(CallOrPut, strike, time, spotPrice, volatility, riskFreeRate) {
-    var xResolution = 15;
-    var yResolution = 15;
+    var xResolution = 16;
+    var yResolution = 16;
     var yIncrement = 40 / yResolution;
     var xIncrement = time / xResolution;
-    var yStart = spotPrice + xResolution * 2;
+    var yStart = spotPrice * 1.2; // always start at up 20%
     var xStart = time;
     results = new Array(yResolution);
     for (var count = 0; count < results.length; count++) {
@@ -76,20 +76,21 @@ function init() {
     //document.write(getOptionValue("call", 100, .1, 84, vol, rfr) + " / ");
     //document.write(getOptionValue("put", 100, .1, 84, vol, rfr));
 
+    //new comment
 
     
     //document.write('a');
-    var table = getGridNumbers("put", 100, 1, 100, vol, rfr);
+    var table = getGridNumbers("call", 100, 1, 100, vol, rfr);
     //document.write('a2');
-    document.write('<table>')
+    //document.write('<table>')
     for (var xCount = 0; xCount < table.length; xCount++) {
-        document.write('<tr>')
+        //document.write('<tr>')
         for (var yCount = 0; yCount < table.length; yCount++) {
-            document.write('<td>' + table[yCount][xCount].toFixed(3) + '</td>');
+            //document.write('<td>' + table[yCount][xCount].toFixed(2) + '</td>');
         }
-        document.write('</tr>')
+        //document.write('</tr>')
     }
-    document.write('</table>');
+    //document.write('</table>');
 }
 
 
