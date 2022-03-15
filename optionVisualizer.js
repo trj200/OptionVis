@@ -42,19 +42,23 @@ function getGridNumbers(CallOrPut, strike, time, spotPrice, volatility, riskFree
     for (var count = 0; count < results.length; count++) {
         results[count] = new Array(xResolution);
     }
+    var longResults = new Array();
     for (var yCount = 0; yCount < yResolution; yCount++) {
         //console.log(xCount);
         xStart = time;
         for (var xCount = 0; xCount < xResolution; xCount++) {
             //console.log(yCount);
-            results[xCount][yCount] = getOptionValue(CallOrPut, strike, xStart, yStart, volatility, riskFreeRate);
+            var oValue = getOptionValue(CallOrPut, strike, xStart, yStart, volatility, riskFreeRate);
+            results[xCount][yCount] = oValue;
+            longResults.push({x: xCount, y:yCount, value: oValue});
             //console.log(xStart  + "," + yStart  + ":" + getOptionValue(CallOrPut, strike, xStart, yStart, volatility, riskFreeRate ) );
             xStart -= xIncrement;
         }
         yStart -= yIncrement;
     }
     //console.log(results);
-    return results;
+    //return results;
+    return longResults;
 }
 
 $(init);
@@ -82,14 +86,32 @@ function init() {
     var table = getGridNumbers("call", 100, 1, 100, vol, rfr);
     //document.write('a2');
     //document.write('<table>')
-    for (var xCount = 0; xCount < table.length; xCount++) {
+    //for (var xCount = 0; xCount < table.length; xCount++) {
         //document.write('<tr>')
-        for (var yCount = 0; yCount < table.length; yCount++) {
+    //    for (var yCount = 0; yCount < table.length; yCount++) {
             //document.write('<td>' + table[yCount][xCount].toFixed(2) + '</td>');
-        }
+    //    }
         //document.write('</tr>')
-    }
+    //}
     //document.write('</table>');
+
+
+    var svg = d3.select('svg');
+
+  var g = svg.append("g").attr("fill", "orange");
+  
+  g.selectAll("rect")
+    .data(data)
+    .join("rect")
+    .attr("x", d => x(d.name))
+    .attr("y", d => y(d.value))
+    //.attr("height", d => y(0) - y(d.value))
+    .attr("height",4)
+    .attr("width", 4);
+  
+  //svg.append("g").call(xAxis);
+  
+  //svg.append("g").call(yAxis);
 }
 
 

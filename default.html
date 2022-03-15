@@ -6,10 +6,13 @@
 <script type="text/javascript" src="jQuery3.6.0.js" ></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script type="text/javascript" src="optionVisualizer.js" ></script>
+<script type="text/javascript" src="graphics.js" ></script>
 </head>
 <body>
   <!-- d3.js -->
-  <div id=graphDiv></div>
+  <div id=graphDiv>
+    <svg height="400" width="400" id="graph" ></svg>
+  </div>
   <div id=constrolsDiv>
     <input type="range" min="80" max="120" step="1" value="100" id="strike" />
   </div>
