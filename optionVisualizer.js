@@ -32,8 +32,8 @@ function getOptionValue(CallOrPut, strike, time, spotPrice, volatility, riskFree
 }
 
 function getGridNumbers(CallOrPut, strike, time, spotPrice, volatility, riskFreeRate) {
-    var xResolution = 16;
-    var yResolution = 16;
+    var xResolution = 20;
+    var yResolution = 20;
     var yIncrement = 40 / yResolution;
     var xIncrement = time / xResolution;
     var yStart = spotPrice * 1.2; // always start at up 20%
@@ -84,6 +84,8 @@ function init() {
 
     //document.write('a');
     var table = getGridNumbers("call", 100, 1, 100, vol, rfr);
+
+    console.log(table);
     //document.write('a2');
     //document.write('<table>')
     //for (var xCount = 0; xCount < table.length; xCount++) {
@@ -96,18 +98,9 @@ function init() {
     //document.write('</table>');
 
 
-    var svg = d3.select('svg');
+ 
 
-  var g = svg.append("g").attr("fill", "orange");
-  
-  g.selectAll("rect")
-    .data(data)
-    .join("rect")
-    .attr("x", d => x(d.name))
-    .attr("y", d => y(d.value))
-    //.attr("height", d => y(0) - y(d.value))
-    .attr("height",4)
-    .attr("width", 4);
+    makeGraphics(table);
   
   //svg.append("g").call(xAxis);
   
