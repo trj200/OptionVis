@@ -50,7 +50,7 @@ function getGridNumbers(CallOrPut, strike, time, spotPrice, volatility, riskFree
             //console.log(yCount);
             var oValue = getOptionValue(CallOrPut, strike, xStart, yStart, volatility, riskFreeRate);
             results[xCount][yCount] = oValue;
-            longResults.push({x: xCount, y:yCount, value: oValue});
+            longResults.push({x: xCount, y:yStart, value: oValue});
             //console.log(xStart  + "," + yStart  + ":" + getOptionValue(CallOrPut, strike, xStart, yStart, volatility, riskFreeRate ) );
             xStart -= xIncrement;
         }
@@ -80,32 +80,28 @@ function init() {
     //document.write(getOptionValue("call", 100, .1, 84, vol, rfr) + " / ");
     //document.write(getOptionValue("put", 100, .1, 84, vol, rfr));
 
-    //new comment
-
-    //document.write('a');
-    var table = getGridNumbers("call", 100, 1, 100, vol, rfr);
+    function a(){
+    var inputs = getInputs();
+    var table = getGridNumbers("call", inputs.strike, inputs.time, 100, inputs.volatility, inputs.riskFreeRate);
 
     console.log(table);
-    //document.write('a2');
-    //document.write('<table>')
-    //for (var xCount = 0; xCount < table.length; xCount++) {
-        //document.write('<tr>')
-    //    for (var yCount = 0; yCount < table.length; yCount++) {
-            //document.write('<td>' + table[yCount][xCount].toFixed(2) + '</td>');
-    //    }
-        //document.write('</tr>')
-    //}
-    //document.write('</table>');
-
-
- 
 
     makeGraphics(table);
+    }
+    a();
+
+    $('#strike,#time,#volatility,#riskFreeRate').bind('input', function(e){a();})
   
   //svg.append("g").call(xAxis);
   
   //svg.append("g").call(yAxis);
 }
 
-
+function getInputs(){
+    var s = $('#strike').val();
+    var t = $('#time').val();
+    var v = $('#volatility').val();
+    var rfr = $('#riskFreeRate').val();
+    return {strike: s, time: t, volatility: v, riskFreeRate: rfr}
+}
 

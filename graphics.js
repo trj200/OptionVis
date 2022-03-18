@@ -23,13 +23,13 @@ var x = d3.scaleLinear()
 .range([margin.left, width - margin.right])
 
 var y = d3.scaleLinear()
-.domain([0, d3.max(data, d => d.y)])
+.domain([d3.min(data, d => d.y), d3.max(data, d => d.y)])
 .range([height - margin.bottom, margin.top]);
 
 var color = d3.scaleLinear()
 .domain([0,d3.max(data, d => d.value)])
 //.interpolator(d3.interpolatePuRd)
-.range(["green","red"])
+.range(["red","green"])
 
 //color = d3.scaleSequentialSqrt([0, d3.max(data, d => d3.max(d.value))], d3.interpolatePuRd)
 //color = d3.scaleSequentialSqrt([0, 30], d3.interpolatePuRd)
@@ -50,7 +50,8 @@ g.selectAll("rect")
   .attr("height",8) // rect size
   .attr("width", 8)
   //.attr("title","ok")
-  .attr("fill", d => color(d.value));
+  .attr("fill", d => color(d.value))
+  .append("svg:title").text(d => d.value);
 
  
 
