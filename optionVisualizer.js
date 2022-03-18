@@ -26,7 +26,6 @@ function getOptionValue(CallOrPut, strike, time, spotPrice, volatility, riskFree
     else {
         value = (strike * Math.exp(-riskFreeRate * time) * fn_CD(-d2, 0, 1)) - (spotPrice * 1 * fn_CD(-d1, 0, 1))
     }
-    //document.write(CallOrPut);
     if (value < 0) { value = 0; }
     return value;
 }
@@ -38,10 +37,6 @@ function getGridNumbers(CallOrPut, strike, time, spotPrice, volatility, riskFree
     var xIncrement = time / xResolution;
     var yStart = spotPrice * 1.2; // always start at up 20%
     var xStart = time;
-    results = new Array(yResolution);
-    for (var count = 0; count < results.length; count++) {
-        results[count] = new Array(xResolution);
-    }
     var longResults = new Array();
     for (var yCount = 0; yCount < yResolution; yCount++) {
         //console.log(xCount);
@@ -49,7 +44,6 @@ function getGridNumbers(CallOrPut, strike, time, spotPrice, volatility, riskFree
         for (var xCount = 0; xCount < xResolution; xCount++) {
             //console.log(yCount);
             var oValue = getOptionValue(CallOrPut, strike, xStart, yStart, volatility, riskFreeRate);
-            results[xCount][yCount] = oValue;
             longResults.push({x: xCount, y:yStart, value: oValue});
             //console.log(xStart  + "," + yStart  + ":" + getOptionValue(CallOrPut, strike, xStart, yStart, volatility, riskFreeRate ) );
             xStart -= xIncrement;
@@ -57,51 +51,30 @@ function getGridNumbers(CallOrPut, strike, time, spotPrice, volatility, riskFree
         yStart -= yIncrement;
     }
     //console.log(results);
-    //return results;
     return longResults;
 }
 
 $(init);
 
 function init() {
-    var rfr = .01;
-    var vol = .12;
-    //document.write(new Date())
-    //document.write("<br />");
-    //document.write(getOptionValue("call", 100, 1, 120, vol, rfr) + " / ");
-    //document.write(getOptionValue("put", 100, 1, 120, vol, rfr));
-    //document.write("<br />");
-    //document.write(getOptionValue("call", 100, 1, 84, vol, rfr) + " / ");
-    //document.write(getOptionValue("put", 100, 1, 84, vol, rfr));
-    //document.write("<br />");
-    //document.write(getOptionValue("call", 100, .1, 120, vol, rfr) + " / ");
-    //document.write(getOptionValue("put", 100, .1, 120, vol, rfr));
-    //document.write("<br />");
-    //document.write(getOptionValue("call", 100, .1, 84, vol, rfr) + " / ");
-    //document.write(getOptionValue("put", 100, .1, 84, vol, rfr));
-
-    function a(){
-    var inputs = getInputs();
-    var table = getGridNumbers("call", inputs.strike, inputs.time, 100, inputs.volatility, inputs.riskFreeRate);
-
-    console.log(table);
-
-    makeGraphics(table);
+    function createChart(){
+        var inputs = getInputs();
+        var table = getGridNumbers(inputs.CallOrPut, inputs.strike, inputs.time, 100, inputs.volatility, inputs.riskFreeRate);
+        //console.log(table);
+        makeGraphics(table);
     }
-    a();
 
-    $('#strike,#time,#volatility,#riskFreeRate').bind('input', function(e){a();})
-  
-  //svg.append("g").call(xAxis);
-  
-  //svg.append("g").call(yAxis);
+    createChart();
+
+    $('#strike,#time,#volatility,#riskFreeRate,#callOrPut').bind('input', function(e){createChart();})
 }
 
 function getInputs(){
+    var cop = $('#callOrPut').val();
     var s = $('#strike').val();
     var t = $('#time').val();
     var v = $('#volatility').val();
     var rfr = $('#riskFreeRate').val();
-    return {strike: s, time: t, volatility: v, riskFreeRate: rfr}
+    return {CallOrPut: cop, strike: s, time: t, volatility: v, riskFreeRate: rfr}
 }
 
