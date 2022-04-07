@@ -67,7 +67,7 @@ function init() {
         makeGraphics(table);
     }
 
-    //createChart();
+    createChart();
 
     $('#strike,#time,#volatility,#riskFreeRate,#callOrPut').bind('input', function(e){createChart();})
 }
