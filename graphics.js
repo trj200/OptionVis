@@ -24,7 +24,7 @@ var greenColor = d3.scaleLinear()
 .range(["white","green"])
 
 var redColor = d3.scaleLinear()
-.domain([0,1])// d3.max(data, d => d.relative)])
+.domain([-4,1])// d3.max(data, d => d.relative)])
 .range(["red","white"])
 
 var svg = d3.select('svg');
@@ -38,6 +38,7 @@ g.selectAll("rect")
   .attr("height",15) // rect size
   .attr("width", 15)
   .attr("fill", d => d.relative > 1 ? greenColor(d.relative) : redColor(d.relative))
+  //.append('click',alert(d => d.relative))
   .append("svg:title").text(d => d.relative);
 
   var xAxis = g => g
