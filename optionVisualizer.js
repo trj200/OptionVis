@@ -61,6 +61,14 @@ function getGridNumbers(callOrPut, buyOrSell, strike, time, spotPrice, volatilit
 $(init);
 
 function init() {
+
+    $('#strikeReadout').val($('#strike').val());
+    $('#timeReadout').val($('#time').val());
+    $('#volatilityReadout').val($('#volatility').val());
+    $('#riskFreeRateReadout').val($('#riskFreeRate').val());
+    $('#postVolatilityReadout').val($('#postVolatility').val());
+
+
     function createChart(){
         var inputs = getInputs();
         var table = getGridNumbers(inputs.callOrPut, inputs.buyOrSell, inputs.strike, inputs.time, 100, inputs.volatility, inputs.riskFreeRate);
@@ -76,14 +84,16 @@ function init() {
         //console.log(e.target.netSibling)
         e.target.nextElementSibling.value  = e.target.value;
     });
-    $('#volatility').bind('input',function(e){$('#postVolatility').val($('#volatility').val())})
+    $('#volatility').bind('input',function(e){
+        $('#postVolatility,#postVolatilityReadout').val($('#volatility').val());
+    })
 }
 
 function getInputs(){
     var cop = $('#callOrPut').val();
     var bos = $('#buyOrSell').val();
     var s = $('#strike').val();
-    var t = $('#time').val();
+    var t = Number($('#time').val())/365;
     var v = $('#postVolatility').val();
     var rfr = $('#riskFreeRate').val();
     return {callOrPut: cop, buyOrSell: bos, strike: s, time: t, volatility: v, riskFreeRate: rfr}

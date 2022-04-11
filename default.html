@@ -12,6 +12,9 @@
   <div id=graphDiv>
     <svg height="400" width="400" id="graph" ></svg>
   </div>
+  <div id="cellDetail">
+
+  </div>
   <div id=constrolsDiv>
     <select id="buyOrSell">
       <option value="buy">buy</option>
@@ -27,8 +30,8 @@
     <span>Strike</span>
     <input type="range" min="80" max="120" step="1" value="100" id="strike" />
     <input type="text" class="readout" id="strikeReadout" readonly value="100" />
-    <span>Time</span>
-    <input type="range" min=".01" max="1" step=".05" value=".5" id="time" />
+    <span>Time in days</span>
+    <input type="range" min="1" max="365" step="1" value="60" id="time" />
     <input type="text" class="readout" id="timeReadout" readonly />
   </div>
   <div>

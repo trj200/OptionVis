@@ -20,12 +20,12 @@ var y = d3.scaleLinear()
 .range([height - margin.bottom, margin.top]);
 
 var greenColor = d3.scaleLinear()
-.domain([0, 5])//d3.max(data, d => d.relative)])
-.range(["white","green"])
+.domain([0, 4])//d3.max(data, d => d.relative)])
+.range(["#ded","green"])
 
 var redColor = d3.scaleLinear()
-.domain([-4,1])// d3.max(data, d => d.relative)])
-.range(["red","white"])
+.domain([-3,1])// d3.max(data, d => d.relative)])
+.range(["red","#edd"])
 
 var svg = d3.select('svg');
 var g = svg.append("g").attr("fill", "orange");
@@ -38,7 +38,8 @@ g.selectAll("rect")
   .attr("height",15) // rect size
   .attr("width", 15)
   .attr("fill", d => d.relative > 1 ? greenColor(d.relative) : redColor(d.relative))
-  //.append('click',alert(d => d.relative))
+  //.on('click',function(data){alert(data.relative);})
+  .on('click', display)
   .append("svg:title").text(d => d.relative);
 
   var xAxis = g => g
@@ -49,4 +50,7 @@ var yAxis = g => g
   .attr("transform", `translate(${margin.left},0)`)
   .call(d3.axisLeft(y));
 }
-  
+
+  function display(d){
+    document.getElementById('cellDetail').innerText = d.target.firstChild.innerHTML;
+  }
