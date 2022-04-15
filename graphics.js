@@ -8,16 +8,16 @@ function makeGraphics(data){
 //   ];
 
 var height = 400;
-var width = 400;
-var margin = ({top: 20, right: 20, bottom: 20, left: 20});
+var width = 500;
+var margin = ({top: 20, right: 80, bottom: 20, left: 80});
 
 var x = d3.scaleLinear()
 .domain([0,d3.max(data, d => d.x)])
-.range([margin.left, width - margin.right])
+.range([margin.left, width - 40])
 
 var y = d3.scaleLinear()
 .domain([d3.min(data, d => d.y), d3.max(data, d => d.y)])
-.range([height - margin.bottom, margin.top]);
+.range([height , margin.top]);
 
 var greenColor = d3.scaleLinear()
 .domain([0, 4])//d3.max(data, d => d.relative)])
@@ -28,7 +28,14 @@ var redColor = d3.scaleLinear()
 .range(["red","#edd"])
 
 var svg = d3.select('svg');
+svg.selectAll('rect,text,g').remove();
 var g = svg.append("g").attr("fill", "orange");
+
+var str = ($('#strike').val() - 80) * 10;
+svg.append("rect").attr("x", margin.left ).attr("y",height - str + margin.top - 2 )
+  .attr("height",2).attr("width", "100%");
+svg.append("text").attr("x", margin.left + width - 90).attr("y",height - str + margin.top - 3)
+  .attr("height",30).attr("width", 100).text("strike");
 
 g.selectAll("rect")
   .data(data)
@@ -38,19 +45,39 @@ g.selectAll("rect")
   .attr("height",15) // rect size
   .attr("width", 15)
   .attr("fill", d => d.relative > 1 ? greenColor(d.relative) : redColor(d.relative))
-  //.on('click',function(data){alert(data.relative);})
   .on('click', display)
   .append("svg:title").text(d => d.relative);
 
-  var xAxis = g => g
-  .attr("transform", `translate(0,${height - margin.bottom})`)
+var x = d3.scaleLinear()
+    .domain([0, $('#time').val()])  
+    .range([0, 400]);  
+
+svg
+  .append("g")
+  .attr("transform", "translate(78,418)")      // This controls the vertical position of the Axis
   .call(d3.axisBottom(x));
 
-var yAxis = g => g
-  .attr("transform", `translate(${margin.left},0)`)
+  var y = d3.scaleLinear()
+    .domain([20,-20])
+    .range([0,height])
+
+  svg.append("g")
+  .attr("transform", "translate(" + (margin.left - 2) + "," + (margin.top - 2) + ")")
   .call(d3.axisLeft(y));
+
 }
 
   function display(d){
-    document.getElementById('cellDetail').innerText = d.target.firstChild.innerHTML;
+    var yy = d.target.__data__.y - 100;
+    var xx = ($('#time').val() / 20) *  d.target.__data__.x;
+    var rel = d.target.__data__.relative;
+    var sign = "gone up +" + yy + " %";
+    if(yy == 0){
+      sign = "remained at the same price";
+    }
+    if(yy < 0){
+      sign = "gone down " + yy + " %";
+    }
+    
+    document.getElementById('cellDetail').innerText ="If the stock price has " + sign + " at " + xx.toFixed(2) + " days into the contract then the contract value is at " + rel + "," + d.target.__data__.value;
   }

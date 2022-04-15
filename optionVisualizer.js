@@ -39,11 +39,12 @@ function getGridNumbers(callOrPut, buyOrSell, strike, time, spotPrice, volatilit
     var yStart = spotPrice * 1.2; // always start at up 20%
     var xStart = time;
     var purchasePrice = getOptionValue(callOrPut, strike, time, spotPrice, $('#volatility').val(), riskFreeRate);
+    //console.log(purchasePrice);
     var longResults = new Array();
-    for (var yCount = 0; yCount < yResolution; yCount++) {
+    for (var yCount = 0; yCount <= yResolution; yCount++) {
         //console.log(xCount);
         xStart = time;
-        for (var xCount = 0; xCount < xResolution; xCount++) {
+        for (var xCount = 0; xCount <= xResolution; xCount++) {
             //console.log(yCount);
             var oValue = getOptionValue(callOrPut, strike, xStart, yStart, volatility, riskFreeRate);
             var r = oValue/purchasePrice;

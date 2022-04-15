@@ -9,8 +9,9 @@
 <script type="text/javascript" src="graphics.js" ></script>
 </head>
 <body>
+  <span>Click on the grid to get details</span>
   <div id=graphDiv>
-    <svg height="400" width="400" id="graph" ></svg>
+    <svg height="500" width="600" id="graph" ></svg>
   </div>
   <div id="cellDetail">
 
@@ -44,7 +45,7 @@
     <input type="text" class="readout" id="riskFreeRateReadout" readonly />
 
     <span>Volatility after contract open</span>
-    <input type="range" min=".01" max=".9" step=".05" value=".2" id="postVolatility" />
+    <input type="range" min=".01" max=".9" step=".05" value=".25" id="postVolatility" />
     <input type="text" class="readout" id="postVolatilityReadout" readonly />
   </div>
   </div>
