@@ -1,3 +1,12 @@
 
+* {background-color: #aab;}
+input {font-size: 20px;}
 .readout{border:none;cursor:default;width: fit-content;}
 svg {border:solid black 1px;}
+
+#graphDiv,#controlsDiv {display: inline-block;width: 45%;margin-left: 25px;}
+#controlsDiv span {display: inline-block; width:150px;}
+
+@media screen and (max-width:900px){
+    #graphDiv,#controlsDiv {display: block;}
+}

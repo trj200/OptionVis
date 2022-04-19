@@ -9,14 +9,16 @@
 <script type="text/javascript" src="graphics.js" ></script>
 </head>
 <body>
-  <span>Click on the grid to get details</span>
+  
   <div id=graphDiv>
-    <svg height="500" width="600" id="graph" ></svg>
+    <span>Click on a grid square to get details</span><br/>
+    <svg height="500" width="580" id="graph" ></svg>
+    <div id="cellDetail"></div>
   </div>
-  <div id="cellDetail">
+  <!-- <div id="cellDetail">
 
-  </div>
-  <div id=constrolsDiv>
+  </div> -->
+  <div id=controlsDiv>
     <select id="buyOrSell">
       <option value="buy">buy</option>
       <option value="sell">sell</option>
@@ -31,21 +33,23 @@
     <span>Strike</span>
     <input type="range" min="80" max="120" step="1" value="100" id="strike" />
     <input type="text" class="readout" id="strikeReadout" readonly value="100" />
+    <br />
     <span>Time in days</span>
     <input type="range" min="1" max="365" step="1" value="60" id="time" />
     <input type="text" class="readout" id="timeReadout" readonly />
   </div>
   <div>
     <h4>Factors set by market</h4>
+    <span>Risk free rate</span>
+    <input type="range" min=".00" max=".7" step=".01" value="0" id="riskFreeRate" />
+    <input type="text" class="readout" id="riskFreeRateReadout" readonly />
+    <br />
     <span>Volatility</span>
     <input type="range" min=".01" max=".9" step=".01" value=".25" id="volatility" />
     <input type="text" class="readout" id="volatilityReadout" readonly />
-    <span>Risk free rate</span>
-    <input type="range" min=".00" max=".7" step=".01" value=".02" id="riskFreeRate" />
-    <input type="text" class="readout" id="riskFreeRateReadout" readonly />
-
+    <br />
     <span>Volatility after contract open</span>
-    <input type="range" min=".01" max=".9" step=".05" value=".25" id="postVolatility" />
+    <input type="range" min=".01" max=".9" step=".01" value=".25" id="postVolatility" />
     <input type="text" class="readout" id="postVolatilityReadout" readonly />
   </div>
   </div>

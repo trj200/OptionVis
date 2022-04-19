@@ -1,15 +1,9 @@
 
 function makeGraphics(data){
 
-//   data = [
-//     {x:1, y:1, value:1},
-//     {x:2,y:2,value:2},
-//     {x:1,y:2,value:3}
-//   ];
-
 var height = 400;
 var width = 500;
-var margin = ({top: 20, right: 80, bottom: 20, left: 80});
+var margin = ({top: 20, right: 80, bottom: 20, left: 100});
 
 var x = d3.scaleLinear()
 .domain([0,d3.max(data, d => d.x)])
@@ -20,12 +14,12 @@ var y = d3.scaleLinear()
 .range([height , margin.top]);
 
 var greenColor = d3.scaleLinear()
-.domain([0, 4])//d3.max(data, d => d.relative)])
-.range(["#ded","green"])
+.domain([0, 2])//d3.max(data, d => d.relative)])
+.range(["#cdc","green"])
 
 var redColor = d3.scaleLinear()
-.domain([-3,1])// d3.max(data, d => d.relative)])
-.range(["red","#edd"])
+.domain([-1,1])// d3.max(data, d => d.relative)])
+.range(["red","#cdd"])
 
 var svg = d3.select('svg');
 svg.selectAll('rect,text,g').remove();
@@ -36,6 +30,10 @@ svg.append("rect").attr("x", margin.left ).attr("y",height - str + margin.top - 
   .attr("height",2).attr("width", "100%");
 svg.append("text").attr("x", margin.left + width - 90).attr("y",height - str + margin.top - 3)
   .attr("height",30).attr("width", 100).text("strike");
+
+svg.append("text").attr("x", 10).attr("y", -5 + margin.top + height * .5).text("Stock");
+svg.append("text").attr("x", 10).attr("y", 11 + margin.top + height * .5).text("Price");
+svg.append("text").attr("x", margin.left + width * .25).attr("y", 36 + margin.top + height).text("Contract age in days");
 
 g.selectAll("rect")
   .data(data)
@@ -63,14 +61,19 @@ svg
 
   svg.append("g")
   .attr("transform", "translate(" + (margin.left - 2) + "," + (margin.top - 2) + ")")
-  .call(d3.axisLeft(y));
+  .call(d3.axisLeft(y).tickFormat(function(d) {
+     var si = ""; 
+     if(d > 0){si = "+";}
+     //if(d < 0){si = "-";}
+     return si + " " + d + " %"; 
+    }));
 
 }
 
   function display(d){
     var yy = d.target.__data__.y - 100;
     var xx = ($('#time').val() / 20) *  d.target.__data__.x;
-    var rel = d.target.__data__.relative;
+    var rel = Math.round((d.target.__data__.relative - 1) * 100);
     var sign = "gone up +" + yy + " %";
     if(yy == 0){
       sign = "remained at the same price";
@@ -78,6 +81,12 @@ svg
     if(yy < 0){
       sign = "gone down " + yy + " %";
     }
+    var change = "decreased";
+    if(rel > 0 ){
+     change = "increased";
+    }
     
-    document.getElementById('cellDetail').innerText ="If the stock price has " + sign + " at " + xx.toFixed(2) + " days into the contract then the contract value is at " + rel + "," + d.target.__data__.value;
+    document.getElementById('cellDetail').innerText ="If the stock price has " + sign + " at " 
+    + xx.toFixed(2) + " days into the contract and volatility is at " + ($('#postVolatility').val() * 100) +
+    "%, then the contract value has " + change + " by " + rel + "%."; 
   }

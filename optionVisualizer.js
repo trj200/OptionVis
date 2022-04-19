@@ -1,10 +1,6 @@
 
 function getOptionValue(callOrPut, strike, time, spotPrice, volatility, riskFreeRate) {
     var value = 0
-    //C = SP e-dt N(d1) - ST e-rt N(d2)
-    //P = ST e-rt N(-d2) - SP e-dt N(-d1)
-    //d1 = ( ln(SP/ST) + (r - d + (σ2/2)) t ) / σ √t
-    //d2 = ( ln(SP/ST) + (r - d - (σ2/2)) t ) / σ √t = d1 - σ √t
     function fnER(e) {
         var t = e >= 0 ? 1 : -1; e = Math.abs(e);
         var n = .3275911, a = .254829592, r = -.284496736, i = 1.421413741, l = -1.453152027,
@@ -14,13 +10,9 @@ function getOptionValue(callOrPut, strike, time, spotPrice, volatility, riskFree
     }
     function fn_CD(e, t, n) { return -1e5 > (e - t) / n ? 0 : (e - t) / n > 1e5 ? 1 : .5 * (1 + fnER((e - t) / Math.sqrt(2 * n))) }
 
-    //d1 = (Math.log(spotPrice / strike) + (riskFreeRate - 0 + volatility * volatility / 2) * time) / volatility * Math.sqrt(time);
-    //u=1/(r*d)*(Math.log(t/n)+(i-l+r*r/2)*a)
     d1 = 1/ (volatility * Math.sqrt(time)) * ( Math.log(spotPrice/strike) + (riskFreeRate - 0 + volatility  * volatility/2) * time );
 
     d2 = d1 - (volatility * Math.sqrt(time));
-    //console.log(d1);
-    //console.log(d2);
     if (callOrPut == "call") {
         value = (spotPrice * Math.exp(0) * fn_CD(d1, 0, 1)) - (strike * Math.exp(-riskFreeRate * time) * fn_CD(d2, 0, 1));
     }
@@ -39,23 +31,23 @@ function getGridNumbers(callOrPut, buyOrSell, strike, time, spotPrice, volatilit
     var yStart = spotPrice * 1.2; // always start at up 20%
     var xStart = time;
     var purchasePrice = getOptionValue(callOrPut, strike, time, spotPrice, $('#volatility').val(), riskFreeRate);
-    //console.log(purchasePrice);
     var longResults = new Array();
     for (var yCount = 0; yCount <= yResolution; yCount++) {
-        //console.log(xCount);
         xStart = time;
         for (var xCount = 0; xCount <= xResolution; xCount++) {
-            //console.log(yCount);
             var oValue = getOptionValue(callOrPut, strike, xStart, yStart, volatility, riskFreeRate);
             var r = oValue/purchasePrice;
             if(buyOrSell == "sell"){r = -r + 2;}
+            //longResults.push({x: xCount, y:yStart, value: oValue, relative: r, pur: purchasePrice, st: xStart});
             longResults.push({x: xCount, y:yStart, value: oValue, relative: r});
-            //console.log(xStart  + "," + yStart  + ":" + getOptionValue(CallOrPut, strike, xStart, yStart, volatility, riskFreeRate ) );
+            // if(yStart == 100){
+            //     console.log(strike, xStart, yStart)
+            // }
             xStart -= xIncrement;
+            if(xStart < .0001){ xStart = .00011;}    
         }
         yStart -= yIncrement;
     }
-    //console.log(results);
     return longResults;
 }
 
@@ -73,7 +65,6 @@ function init() {
     function createChart(){
         var inputs = getInputs();
         var table = getGridNumbers(inputs.callOrPut, inputs.buyOrSell, inputs.strike, inputs.time, 100, inputs.volatility, inputs.riskFreeRate);
-        //console.log(table);
         makeGraphics(table);
     }
 
@@ -81,8 +72,6 @@ function init() {
 
     $('#strike,#time,#volatility,#riskFreeRate,#callOrPut,#buyOrSell,#postVolatility').bind('input', function(e){
         createChart();
-        //console.log(e.target.nextElementSibling);
-        //console.log(e.target.netSibling)
         e.target.nextElementSibling.value  = e.target.value;
     });
     $('#volatility').bind('input',function(e){
@@ -102,7 +91,6 @@ function getInputs(){
 
 //testing();
 function testing(){
-  // getOptionValue(CallOrPut, strike, time, spotPrice, volatility, riskFreeRate);
 console.log(getOptionValue("call", 100, 1, 100, .2, .05), "10.45");
 console.log(getOptionValue("put", 100, 1, 100, .2, .05), "5.57");
 console.log(getOptionValue("call", 120, 1, 100, .2, .05), "3.25");
