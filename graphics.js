@@ -2,7 +2,7 @@
 function makeGraphics(data){
 
 var height = 400;
-var width = 500;
+var width = 520;
 var margin = ({top: 20, right: 80, bottom: 20, left: 100});
 
 var x = d3.scaleLinear()
@@ -14,21 +14,21 @@ var y = d3.scaleLinear()
 .range([height , margin.top]);
 
 var greenColor = d3.scaleLinear()
-.domain([0, 2])//d3.max(data, d => d.relative)])
+.domain([0, 4])//d3.max(data, d => d.relative)])
 .range(["#cdc","green"])
 
 var redColor = d3.scaleLinear()
-.domain([-1,1])// d3.max(data, d => d.relative)])
+.domain([-.5,1])// d3.max(data, d => d.relative)])
 .range(["red","#cdd"])
 
 var svg = d3.select('svg');
 svg.selectAll('rect,text,g').remove();
 var g = svg.append("g").attr("fill", "orange");
 
-var str = ($('#strike').val() - 80) * 10;
-svg.append("rect").attr("x", margin.left ).attr("y",height - str + margin.top - 2 )
+var str = ($('#strike').val()) * 10;
+svg.append("rect").attr("x", margin.left ).attr("y",height - str - 200 + margin.top - 2 )
   .attr("height",2).attr("width", "100%");
-svg.append("text").attr("x", margin.left + width - 90).attr("y",height - str + margin.top - 3)
+svg.append("text").attr("x", margin.left + width - 110).attr("y",height - str - 200 + margin.top - 3)
   .attr("height",30).attr("width", 100).text("strike");
 
 svg.append("text").attr("x", 10).attr("y", -5 + margin.top + height * .5).text("Stock");
@@ -52,7 +52,7 @@ var x = d3.scaleLinear()
 
 svg
   .append("g")
-  .attr("transform", "translate(78,418)")      // This controls the vertical position of the Axis
+  .attr("transform", "translate(" + margin.left + ",418)")      // This controls the vertical position of the Axis
   .call(d3.axisBottom(x));
 
   var y = d3.scaleLinear()
@@ -87,6 +87,6 @@ svg
     }
     
     document.getElementById('cellDetail').innerText ="If the stock price has " + sign + " at " 
-    + xx.toFixed(2) + " days into the contract and volatility is at " + ($('#postVolatility').val() * 100) +
+    + xx.toFixed(2) + " days into the contract and volatility is at " + ($('#postVolatility').val() * 100).toFixed(0) +
     "%, then the contract value has " + change + " by " + rel + "%."; 
   }

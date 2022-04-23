@@ -1,12 +1,15 @@
 
 * {background-color: #aab;}
-input {font-size: 20px;}
-.readout{border:none;cursor:default;width: fit-content;}
-svg {border:solid black 1px;}
+body{display: flex; align-items: center;}
+input {font-size: 16px; width: auto;}
+.readout{border:none;cursor:default;width:70px;}
+/* svg {border:solid black 1px;} */
+#clickSpan, #cellDetail {display: block;width: 450px;text-align: center;margin-left: 80px;}
+h4 {text-align: center;}
+#controlsDiv{padding:30px;}
+.slideLabel {display: inline-block;width:190px;text-align: right;}
+#controlsDiv div {border: 1px solid black;padding:10px;margin: 15px;}
 
-#graphDiv,#controlsDiv {display: inline-block;width: 45%;margin-left: 25px;}
-#controlsDiv span {display: inline-block; width:150px;}
-
-@media screen and (max-width:900px){
-    #graphDiv,#controlsDiv {display: block;}
+@media screen and (max-width:1000px){
+    body{flex-flow: column;}
 }

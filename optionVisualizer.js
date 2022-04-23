@@ -30,7 +30,7 @@ function getGridNumbers(callOrPut, buyOrSell, strike, time, spotPrice, volatilit
     var xIncrement = time / xResolution;
     var yStart = spotPrice * 1.2; // always start at up 20%
     var xStart = time;
-    var purchasePrice = getOptionValue(callOrPut, strike, time, spotPrice, $('#volatility').val(), riskFreeRate);
+    var purchasePrice = getOptionValue(callOrPut, strike, time, spotPrice, $('#volatility').val()/100, riskFreeRate);
     var longResults = new Array();
     for (var yCount = 0; yCount <= yResolution; yCount++) {
         xStart = time;
@@ -55,11 +55,11 @@ $(init);
 
 function init() {
 
-    $('#strikeReadout').val($('#strike').val());
+    $('#strikeReadout').val($('#strike').val() + '%');
     $('#timeReadout').val($('#time').val());
-    $('#volatilityReadout').val($('#volatility').val());
-    $('#riskFreeRateReadout').val($('#riskFreeRate').val());
-    $('#postVolatilityReadout').val($('#postVolatility').val());
+    $('#volatilityReadout').val($('#volatility').val() + '%');
+    $('#riskFreeRateReadout').val($('#riskFreeRate').val() + '%');
+    $('#postVolatilityReadout').val($('#postVolatility').val() + '%');
 
 
     function createChart(){
@@ -72,20 +72,32 @@ function init() {
 
     $('#strike,#time,#volatility,#riskFreeRate,#callOrPut,#buyOrSell,#postVolatility').bind('input', function(e){
         createChart();
-        e.target.nextElementSibling.value  = e.target.value;
+        switch(e.target.id){
+            case "strike":
+            case "volatility":
+            case "riskFreeRate":
+            case "postVolatility":
+                e.target.nextElementSibling.value  = e.target.value + '%';
+            break;
+            default:
+                e.target.nextElementSibling.value  = e.target.value;
+                break;
+            }
     });
     $('#volatility').bind('input',function(e){
-        $('#postVolatility,#postVolatilityReadout').val($('#volatility').val());
+        $('#postVolatility').val($('#volatility').val());
+        $('#postVolatilityReadout').val($('#volatility').val() + '%');
+
     })
 }
 
 function getInputs(){
     var cop = $('#callOrPut').val();
     var bos = $('#buyOrSell').val();
-    var s = $('#strike').val();
+    var s = Number($('#strike').val()) + 100;
     var t = Number($('#time').val())/365;
-    var v = $('#postVolatility').val();
-    var rfr = $('#riskFreeRate').val();
+    var v = $('#postVolatility').val()/100;
+    var rfr = $('#riskFreeRate').val()/100;
     return {callOrPut: cop, buyOrSell: bos, strike: s, time: t, volatility: v, riskFreeRate: rfr}
 }
 
