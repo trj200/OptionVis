@@ -11,43 +11,41 @@
 <body>
   
   <div id=graphDiv>
-    <span id="clickSpan">Click on a grid square to get details</span><br/>
-    <svg height="500" width="580" id="graph" ></svg>
-    <div id="cellDetail"></div>
+    <span id="clickSpan">Click on a grid square to get details</span>
+    <svg height="520" width="580" id="graph" ></svg>
+    <span id="cellDetail"></span>
   </div>
   <!-- <div id="cellDetail">
 
   </div> -->
   <div id=controlsDiv>
-    <select id="buyOrSell">
-      <option value="buy">buy</option>
-      <option value="sell">sell</option>
-    </select>
-    <span>to open a</span>
-    <select id="callOrPut">
-      <option value="call">call</option>
-      <option value="put">put</option>
-    </select>
+    
     <div>
-      <h4>Factors you choose</h4>
+      <h4>You choose:</h4>
+      <select id="buyOrSell">
+        <option value="buy">buy</option>
+        <option value="sell">sell</option>
+      </select>
+      <span>to open a</span>
+      <select id="callOrPut">
+        <option value="call">call</option>
+        <option value="put">put</option>
+      </select>
     <span class="slideLabel">Strike</span>
     <input type="range" min="-20" max="20" step="1" value="0" id="strike" />
     <input type="text" class="readout" id="strikeReadout" readonly value="100" />
-    <br />
     <span class="slideLabel">Time in days</span>
     <input type="range" min="1" max="365" step="1" value="60" id="time" />
     <input type="text" class="readout" id="timeReadout" readonly />
   </div>
   <div>
-    <h4>Factors set by market</h4>
+    <h4>Set by market:</h4>
     <span class="slideLabel">Risk free rate</span>
     <input type="range" min="0" max="70" step="1" value="0" id="riskFreeRate" />
     <input type="text" class="readout" id="riskFreeRateReadout" readonly />
-    <br />
     <span class="slideLabel">Volatility at contract open</span>
     <input type="range" min="1" max="99" step="1" value="25" id="volatility" />
     <input type="text" class="readout" id="volatilityReadout" readonly />
-    <br />
     <span class="slideLabel">Volatility after contract open</span>
     <input type="range" min="1" max="99" step="1" value="25" id="postVolatility" />
     <input type="text" class="readout" id="postVolatilityReadout" readonly />

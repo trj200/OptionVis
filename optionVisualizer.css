@@ -1,15 +1,28 @@
 
-* {background-color: #aab;}
-body{display: flex; align-items: center;}
-input {font-size: 16px; width: auto;}
-.readout{border:none;cursor:default;width:70px;}
-/* svg {border:solid black 1px;} */
-#clickSpan, #cellDetail {display: block;width: 450px;text-align: center;margin-left: 80px;}
-h4 {text-align: center;}
-#controlsDiv{padding:30px;}
-.slideLabel {display: inline-block;width:190px;text-align: right;}
-#controlsDiv div {border: 1px solid black;padding:10px;margin: 15px;}
+* {background-color: #ccd;}
+body{display: flex; align-items: center;font-size: 20px;}
+input {font-size: 20px; width: auto;}
+select {font-size: 20px;text-align: center;}
+h4 {text-align: center; grid-column: 1/4;margin-bottom: 10px;}
+.readout{border:none;cursor:default;}
+.slideLabel {text-align: right;}
+ svg {border:1px solid black;}  
+#clickSpan, #cellDetail {text-align: center;}
 
-@media screen and (max-width:1000px){
-    body{flex-flow: column;}
+#graphDiv {display: flex; flex-flow: column; align-items: center;}
+#controlsDiv{padding:30px;}
+
+#controlsDiv div {border: 1px solid black;background-color: #aab;
+    display: grid; grid-template-columns: 30% 40% 18%; align-items: center; grid-gap:1em;
+    padding:10px;margin: 15px;  
+}
+#controlsDiv div * {background-color: #aab;}
+#chooseSpan {grid-column: 1/4;}
+
+@media screen and (max-width:1150px){
+    svg {width:860px; height: 800px;}
+    body{flex-flow: column;font-size: 24px;}
+    input{font-size: 24px;}
+    select {font-size: 24px;}
+    #controlsDiv div{grid-gap: 2em;}
 }

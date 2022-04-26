@@ -1,67 +1,74 @@
 
 function makeGraphics(data){
 
-var height = 400;
-var width = 520;
-var margin = ({top: 20, right: 80, bottom: 20, left: 100});
+  //var erte = document.getElementById('graph');
+var margin = ({top: 40, right: 100, bottom: 100, left: 100});
+var squareSize = document.getElementById('graph').clientHeight / 28;
+var height = document.getElementById('graph').clientHeight - (margin.top + margin.bottom);// 400;
+var width = document.getElementById('graph').clientWidth - (margin.right + margin.left);//520;
+
 
 var x = d3.scaleLinear()
 .domain([0,d3.max(data, d => d.x)])
-.range([margin.left, width - 40])
+.range([margin.left, width + margin.left])
 
 var y = d3.scaleLinear()
 .domain([d3.min(data, d => d.y), d3.max(data, d => d.y)])
-.range([height , margin.top]);
+//.range([height , margin.top]);
+.range([ height + margin.top, margin.top,])
 
 var greenColor = d3.scaleLinear()
-.domain([0, 4])//d3.max(data, d => d.relative)])
+.domain([0, 3])//d3.max(data, d => d.relative)])
+//.domain([0,d3.max(data, d => d.relative)])
 .range(["#cdc","green"])
 
-var redColor = d3.scaleLinear()
-.domain([-.5,1])// d3.max(data, d => d.relative)])
+var redColor = d3.scalePow()
+.domain([-1,1])// d3.max(data, d => d.relative)])
+//.domain([d3.min(data, d => d.relative),1])
 .range(["red","#cdd"])
 
 var svg = d3.select('svg');
 svg.selectAll('rect,text,g').remove();
 var g = svg.append("g").attr("fill", "orange");
 
-var str = ($('#strike').val()) * 10;
-svg.append("rect").attr("x", margin.left ).attr("y",height - str - 200 + margin.top - 2 )
+var str = ($('#strike').val()) * (height/40);
+var middle = margin.top + (height + squareSize) /2;
+svg.append("rect").attr("x", margin.left ).attr("y", middle - str )
   .attr("height",2).attr("width", "100%");
-svg.append("text").attr("x", margin.left + width - 110).attr("y",height - str - 200 + margin.top - 3)
+svg.append("text").attr("x", margin.left + width + 29).attr("y",middle - str - (squareSize/2))
   .attr("height",30).attr("width", 100).text("strike");
 
-svg.append("text").attr("x", 10).attr("y", -5 + margin.top + height * .5).text("Stock");
-svg.append("text").attr("x", 10).attr("y", 11 + margin.top + height * .5).text("Price");
-svg.append("text").attr("x", margin.left + width * .25).attr("y", 36 + margin.top + height).text("Contract age in days");
+svg.append("text").attr("x", 10).attr("y", -7 + margin.top + height * .5).text("Stock");
+svg.append("text").attr("x", 10).attr("y", 12 + margin.top + height * .5).text("Price");
+svg.append("text").attr("x", margin.left + width * .25).attr("y", 55 + margin.top + height + squareSize).text("Contract age in days");
 
 g.selectAll("rect")
   .data(data)
   .join("rect")
   .attr("x", d => x(d.x))
   .attr("y", d => y(d.y))
-  .attr("height",15) // rect size
-  .attr("width", 15)
+  .attr("height",squareSize) // rect size
+  .attr("width", squareSize)
   .attr("fill", d => d.relative > 1 ? greenColor(d.relative) : redColor(d.relative))
   .on('click', display)
-  .append("svg:title").text(d => d.relative);
+  //.append("svg:title").text(d => d.relative);
 
-var x = d3.scaleLinear()
+var x2 = d3.scaleLinear()
     .domain([0, $('#time').val()])  
-    .range([0, 400]);  
+    .range([0, width + squareSize]);  
 
 svg
   .append("g")
-  .attr("transform", "translate(" + margin.left + ",418)")      // This controls the vertical position of the Axis
-  .call(d3.axisBottom(x));
+  .attr("transform", "translate(" + margin.left + "," + (height + margin.top + squareSize) + ")")      // This controls the vertical position of the Axis
+  .call(d3.axisBottom(x2));
 
-  var y = d3.scaleLinear()
+  var y2 = d3.scaleLinear()
     .domain([20,-20])
-    .range([0,height])
+    .range([0,height + squareSize])
 
   svg.append("g")
   .attr("transform", "translate(" + (margin.left - 2) + "," + (margin.top - 2) + ")")
-  .call(d3.axisLeft(y).tickFormat(function(d) {
+  .call(d3.axisLeft(y2).tickFormat(function(d) {
      var si = ""; 
      if(d > 0){si = "+";}
      //if(d < 0){si = "-";}
@@ -87,6 +94,6 @@ svg
     }
     
     document.getElementById('cellDetail').innerText ="If the stock price has " + sign + " at " 
-    + xx.toFixed(2) + " days into the contract and volatility is at " + ($('#postVolatility').val() * 100).toFixed(0) +
+    + xx.toFixed(2) + " days into the contract and volatility is at " + $('#postVolatility').val() +
     "%, then the contract value has " + change + " by " + rel + "%."; 
   }
