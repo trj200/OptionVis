@@ -3,7 +3,7 @@
 body{display: flex; align-items: center;font-size: 20px;}
 input {font-size: 20px; width: auto;}
 select {font-size: 20px;text-align: center;}
-h4 {text-align: center; grid-column: 1/4;margin-bottom: 10px;}
+h4 {text-align: center; grid-column: 1/4;margin-bottom: 5px;margin-top:5px;}
 .readout{border:none;cursor:default;}
 .slideLabel {text-align: right;}
  svg {border:1px solid black;}  
@@ -24,5 +24,10 @@ h4 {text-align: center; grid-column: 1/4;margin-bottom: 10px;}
     body{flex-flow: column;font-size: 24px;}
     input{font-size: 24px;}
     select {font-size: 24px;}
-    #controlsDiv div{grid-gap: 2em;}
+    #controlsDiv div{column-gap: 2em;}
+    .axis {font-size: 20px;}
+    input[type="range"]{height:70px;} 
+    /* input[type="range"]::-webkit-slider-runnable-thumb{border-radius: 50px;height:50px;}
+    input[type="range"]::-moz-range-thumb{border-radius: 50px;height:50px;}
+    input[type="range"]::-ms-thumb{border-radius: 10px;height:50px;width:50px;} */
 }

@@ -3,9 +3,9 @@ function makeGraphics(data){
 
   //var erte = document.getElementById('graph');
 var margin = ({top: 40, right: 100, bottom: 100, left: 100});
-var squareSize = document.getElementById('graph').clientHeight / 28;
 var height = document.getElementById('graph').clientHeight - (margin.top + margin.bottom);// 400;
 var width = document.getElementById('graph').clientWidth - (margin.right + margin.left);//520;
+var squareSize = height/21; document.getElementById('graph').clientHeight / 28;
 
 
 var x = d3.scaleLinear()
@@ -35,7 +35,7 @@ var str = ($('#strike').val()) * (height/40);
 var middle = margin.top + (height + squareSize) /2;
 svg.append("rect").attr("x", margin.left ).attr("y", middle - str )
   .attr("height",2).attr("width", "100%");
-svg.append("text").attr("x", margin.left + width + 29).attr("y",middle - str - (squareSize/2))
+svg.append("text").attr("x", margin.left + width + 40).attr("y",middle - str - (squareSize/2))
   .attr("height",30).attr("width", 100).text("strike");
 
 svg.append("text").attr("x", 10).attr("y", -7 + margin.top + height * .5).text("Stock");
@@ -59,7 +59,8 @@ var x2 = d3.scaleLinear()
 
 svg
   .append("g")
-  .attr("transform", "translate(" + margin.left + "," + (height + margin.top + squareSize) + ")")      // This controls the vertical position of the Axis
+  .attr("transform", "translate(" + margin.left + "," + (height + margin.top + squareSize) + ")") 
+  .attr("class","axis")   
   .call(d3.axisBottom(x2));
 
   var y2 = d3.scaleLinear()
@@ -68,6 +69,7 @@ svg
 
   svg.append("g")
   .attr("transform", "translate(" + (margin.left - 2) + "," + (margin.top - 2) + ")")
+  .attr("class","axis")
   .call(d3.axisLeft(y2).tickFormat(function(d) {
      var si = ""; 
      if(d > 0){si = "+";}
@@ -91,6 +93,9 @@ svg
     var change = "decreased";
     if(rel > 0 ){
      change = "increased";
+    }
+    if(rel > 1000 || rel < -1000){
+      rel = "over 1000"
     }
     
     document.getElementById('cellDetail').innerText ="If the stock price has " + sign + " at " 
