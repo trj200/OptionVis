@@ -89,6 +89,17 @@ function init() {
         $('#postVolatilityReadout').val($('#volatility').val() + '%');
 
     })
+    $('#closeButton').bind('click', function(){
+        $('#introDiv').css('display','none');
+    });
+    $('#headerSpan').bind('click',function(){
+        if($('#introDiv').css('display') == "none"){
+            $('#introDiv').css('display','block');      
+          }
+        else{
+            $('#introDiv').css('display','none');       
+         }
+    });
 }
 
 function getInputs(){

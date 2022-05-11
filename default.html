@@ -9,7 +9,16 @@
 <script type="text/javascript" src="graphics.js" ></script>
 </head>
 <body>
-  
+  <span id="headerSpan">Option Visualizer</span>
+  <div id="introDiv">
+    <h1></h1>
+    <p>This tool is intended for people who know the basics of options but but 
+      lack practical experience with how they may play out.  If you need to learn more
+    about the basics of options start at a place like 
+    <a target="_blank" href="https://www.investopedia.com/options-basics-tutorial-4583012">Investopedia</a></p>
+    <input type="button" id="closeButton" value="X" />
+  </div>
+  <div id="mainDiv">
   <div id=graphDiv>
     <span id="clickSpan">Click on a grid square to get details</span>
     <svg height="520" width="580" id="graph" ></svg>
@@ -41,7 +50,7 @@
   <div>
     <h4>Set by market:</h4>
     <span class="slideLabel">Risk free rate</span>
-    <input type="range" min="0" max="70" step="1" value="0" id="riskFreeRate" />
+    <input type="range" min="0" max="70" step="1" value="1" id="riskFreeRate" />
     <input type="text" class="readout" id="riskFreeRateReadout" readonly />
     <span class="slideLabel">Volatility at contract open</span>
     <input type="range" min="1" max="99" step="1" value="25" id="volatility" />
@@ -51,5 +60,7 @@
     <input type="text" class="readout" id="postVolatilityReadout" readonly />
   </div>
   </div>
+</div>
+<span id="email">contact: nuhninfo@gmail.com</span>
 </body>
 </html>
