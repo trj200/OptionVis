@@ -11,11 +11,33 @@
 <body>
   <span id="headerSpan">Option Visualizer</span>
   <div id="introDiv">
-    <h1></h1>
+    <h4>Getting a sense of how options will play out</h4>
     <p>This tool is intended for people who know the basics of options but but 
       lack practical experience with how they may play out.  If you need to learn more
     about the basics of options start at a place like 
-    <a target="_blank" href="https://www.investopedia.com/options-basics-tutorial-4583012">Investopedia</a></p>
+    <a target="_blank" href="https://www.investopedia.com/options-basics-tutorial-4583012">Investopedia</a>
+    and then come back to this tool.  Play around with the sliders and get a sense of how different strikes
+    and time ranges combine with market settings to determine option prices.  This tool uses percentages rather than
+    specific prices or stocks as a way to generalize all options.  Click on a grid square to get specific
+    details about that possible outcome.  Use the volatility at open slider to adjust volatility
+    when the contract is opened.  Use the volatility after open slider to see how volatility changes
+    will affect an option after it is opened.  Use the risk free rate slider to see how rate changes
+    will affect options.
+  </p>
+  <p>This page is using the
+    <a href="https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model" target="_blank" >Black Scholes model</a>
+  to calculate prices.  Keep in mind that market makers may use adjusted versions of this model
+  to set prices and they may differ.  Ultimately, an option is worth what some one
+  else will pay for it.
+  </p>
+  <h4>Looking at a specific stock</h4>
+  <p>If you want to see how the possibilities for a specific stock might play out, you can get the current
+    implied volatility from your broker and plug that into the volatility at contract
+    open slider.  Also find the current 3 month treasury yield and plug that into the risk free rate.
+    Then you can choose a good strike and duration.  Pay particular attention to how changing the 
+    volatility after contract open affects the option - this is often where surprises come from.
+  </p>
+    
     <input type="button" id="closeButton" value="X" />
   </div>
   <div id="mainDiv">

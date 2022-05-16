@@ -26,7 +26,7 @@ h4 {text-align: center; grid-column: 1/4;margin-bottom: 5px;margin-top:5px;}
 
 @media screen and (max-width:1150px){
     svg {width:860px; height: 800px;}
-    body{flex-flow: column;font-size: 24px;}
+    #mainDiv{flex-flow: column;font-size: 24px;}
     input{font-size: 24px;}
     select {font-size: 24px;}
     #controlsDiv div{column-gap: 2em;}
